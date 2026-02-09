@@ -17,12 +17,15 @@ export default class Renderer {
     cssScene: THREE.Scene;
     time: Time;
     overlay: THREE.Mesh;
+    nightOverlay: THREE.Mesh;
     overlayScene: THREE.Scene;
     camera: Camera;
     overlayInstance: THREE.WebGLRenderer;
     instance: THREE.WebGLRenderer;
     cssInstance: CSS3DRenderer;
     raiseExposure: boolean;
+    nightTarget: number;
+    nightMix: number;
     uniforms: {
         [uniform: string]: THREE.IUniform<any>;
     };
@@ -35,6 +38,8 @@ export default class Renderer {
         this.cssScene = this.application.cssScene;
         this.overlayScene = this.application.overlayScene;
         this.camera = this.application.camera;
+        this.nightTarget = 0;
+        this.nightMix = 0;
 
         this.setInstance();
     }
@@ -100,6 +105,26 @@ export default class Renderer {
         );
 
         this.overlayScene.add(this.overlay);
+
+        this.nightOverlay = new THREE.Mesh(
+            new THREE.PlaneGeometry(10000, 10000),
+            new THREE.MeshBasicMaterial({
+                color: 0x05070b,
+                transparent: true,
+                opacity: 0,
+                depthTest: false,
+                depthWrite: false,
+            })
+        );
+        this.nightOverlay.renderOrder = 5;
+        this.overlayScene.add(this.nightOverlay);
+
+        UIEventBus.on(
+            'dayNightToggle',
+            (data: { mode: 'day' | 'night' }) => {
+                this.nightTarget = data && data.mode === 'night' ? 1 : 0;
+            }
+        );
     }
 
     resize() {
@@ -116,6 +141,15 @@ export default class Renderer {
         this.application.camera.instance.updateProjectionMatrix();
         if (this.uniforms) {
             this.uniforms.u_time.value = Math.sin(this.time.current * 0.01);
+        }
+
+        this.nightMix += (this.nightTarget - this.nightMix) * 0.08;
+        if (this.nightOverlay) {
+            this.nightOverlay.position.copy(this.camera.instance.position);
+            this.nightOverlay.quaternion.copy(this.camera.instance.quaternion);
+            const material = this.nightOverlay
+                .material as THREE.MeshBasicMaterial;
+            material.opacity = 0.95 * this.nightMix;
         }
 
         this.instance.render(this.scene, this.camera.instance);

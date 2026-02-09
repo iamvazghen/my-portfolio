@@ -1,13 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import FreeCamToggle from './FreeCamToggle';
 import MuteToggle from './MuteToggle';
+import DayNightToggle from './DayNightToggle';
 
 interface InfoOverlayProps {
     visible: boolean;
 }
 
-const NAME_TEXT = 'John Kearney';
-const TITLE_TEXT = 'p.k.a kearneyonline';
+const NAME_TEXT = 'Vazghen Vardanian';
+const TITLE_TEXT = 'p.k.a iamvazghen';
 const MULTIPLIER = 1;
 
 const InfoOverlay: React.FC<InfoOverlayProps> = ({ visible }) => {
@@ -88,6 +89,7 @@ const InfoOverlay: React.FC<InfoOverlayProps> = ({ visible }) => {
         }
     }, [textDone]);
 
+
     useEffect(() => {
         window.postMessage({ type: 'keydown', key: `_AUTO_` }, '*');
     }, [freeCamVisible, volumeVisible]);
@@ -127,16 +129,16 @@ const InfoOverlay: React.FC<InfoOverlayProps> = ({ visible }) => {
                     >
                         <p>{timeText}</p>
                     </div>
-                    {volumeVisible && (
-                        <div style={styles.lastRowChild}>
-                            <MuteToggle />
-                        </div>
-                    )}
                     {freeCamVisible && (
                         <div style={styles.lastRowChild}>
                             <FreeCamToggle />
                         </div>
                     )}
+                </div>
+            )}
+            {freeCamVisible && (
+                <div style={styles.container}>
+                    <DayNightToggle />
                 </div>
             )}
         </div>

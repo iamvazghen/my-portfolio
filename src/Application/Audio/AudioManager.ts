@@ -16,6 +16,8 @@ export default class Audio {
         ambience: AmbienceAudio;
     };
     scene: THREE.Scene;
+    muted: boolean;
+    nightMode: boolean;
 
     constructor() {
         this.application = new Application();
@@ -24,6 +26,8 @@ export default class Audio {
         this.loadedAudio = this.application.resources.items.audio;
         this.scene = this.application.scene;
         this.audioPool = {};
+        this.muted = false;
+        this.nightMode = false;
 
         this.audioSources = {
             computer: new ComputerAudio(this),
@@ -41,8 +45,17 @@ export default class Audio {
         });
 
         UIEventBus.on('muteToggle', (mute: boolean) => {
-            this.listener.setMasterVolume(mute ? 0 : 1);
+            this.muted = mute;
+            this.applyMasterVolume();
         });
+
+        UIEventBus.on(
+            'dayNightToggle',
+            (data: { mode: 'day' | 'night' }) => {
+                this.nightMode = data && data.mode === 'night';
+                this.applyMasterVolume();
+            }
+        );
     }
 
     playAudio(
@@ -187,5 +200,10 @@ export default class Audio {
             const _key = key as keyof typeof this.audioSources;
             this.audioSources[_key].update();
         }
+    }
+
+    applyMasterVolume() {
+        const shouldMute = this.muted || this.nightMode;
+        this.listener.setMasterVolume(shouldMute ? 0 : 1);
     }
 }

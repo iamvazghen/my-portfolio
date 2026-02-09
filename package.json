@@ -1,5 +1,5 @@
 {
-    "repository": "https://github.com/johnkearney1/kearneyjohn.com-UI.git",
+    "repository": "https://github.com/iamvazghen/my-portfolio.git",
     "license": "UNLICENSED",
     "scripts": {
         "start": "node server/index.ts",

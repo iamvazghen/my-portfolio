@@ -24,6 +24,14 @@ const InterfaceUI: React.FC<InterfaceUIProps> = ({}) => {
         }
     }, []);
 
+    useEffect(() => {
+        UIEventBus.on('dayNightToggle', (data: { mode: 'day' | 'night' }) => {
+            const isNight = data && data.mode === 'night';
+            document.body.classList.toggle('night-mode', isNight);
+            document.documentElement.classList.toggle('night-mode', isNight);
+        });
+    }, []);
+
     const initMouseDownHandler = () => {
         setVisible(true);
         setInitLoad(false);

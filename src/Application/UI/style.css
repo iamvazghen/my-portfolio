@@ -183,3 +183,31 @@ br {
         padding-bottom: 32px;
     }
 }
+
+/* Night mode */
+.night-mode h1,
+.night-mode h2,
+.night-mode h3,
+.night-mode h4,
+.night-mode h5,
+.night-mode p {
+    color: #b8c2cf;
+}
+
+.night-mode .blinking-cursor {
+    background-color: #b8c2cf;
+}
+
+.night-mode .bios-start-button {
+    background-color: #0b0f16;
+    border-color: #b8c2cf;
+}
+
+.night-mode .bios-start-button p {
+    color: #b8c2cf;
+}
+
+.night-mode .bios-start-button:hover p {
+    background-color: #b8c2cf;
+    color: #0b0f16;
+}

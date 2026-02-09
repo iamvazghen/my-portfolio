@@ -6,8 +6,11 @@ const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
 const compression = require('compression');
 
+// Import TypeScript types
+import { Request, Response } from 'express';
+
 const app = express();
-const port = 8080;
+const port = Number(process.env.PORT) || 3003;
 
 app.use(cors());
 app.use(compression());
@@ -22,7 +25,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // Handle GET requests to /api route
-app.post('/api/send-email', (req, res) => {
+app.post('/api/send-email', (req: Request, res: Response) => {
     const { name, company, email, message } = req.body;
 
     const transporter = nodemailer.createTransport({
@@ -39,29 +42,29 @@ app.post('/api/send-email', (req, res) => {
         .then(() => {
             transporter
                 .sendMail({
-                    from: `"${name}" <j1@kearneyjohn.com>`, // sender address
-                    to: 'john@kearneyjohn.com', // list of receivers
+                    from: `"${name}" <iamvazghen@gmail.com>`, // sender address
+                    to: 'iamvazghen@gmail.com', // list of receivers
                     subject: `${name} <${email}> ${
                         company ? `from ${company}` : ''
                     } submitted a contact form`, // Subject line
                     text: `${message}`, // plain text body
                 })
-                .then((info) => {
+                .then((info: any) => {
                     console.log({ info });
                     res.json({ message: 'success' });
                 })
-                .catch((e) => {
+                .catch((e: any) => {
                     console.error(e);
                     res.status(500).send(e);
                 });
         })
-        .catch((e) => {
+        .catch((e: any) => {
             console.error(e);
             res.status(500).send(e);
         });
 });
 
-// listen to app on port 8080
+// listen to app on configured port
 app.listen(port, () => {
     console.log(`Server is listening on port ${port}`);
 });

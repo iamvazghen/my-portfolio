@@ -1,6 +1,6 @@
-# kearneyjohn.com-UI
+# kearneyVazghen.com-UI
 
-This is one of two repositories created for my portfolio website, [kearneyjohn.com](https://kearneyjohn.com/). If you are looking for the 2D Windows themed OS repository you can find it [here](https://github.com/JohnKearney1/kearneyjohn.com-OS).
+This is one of two repositories created for my portfolio website, [kearneyVazghen.com](https://kearneyVazghen.com/). If you are looking for the 2D Windows themed OS repository you can find it [here](https://github.com/VazghenKearney1/kearneyVazghen.com-OS).
 
 ![3D UI](./img/UI.gif)
 

@@ -161,16 +161,16 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
                         <div style={styles.logoContainer}>
                             <div>
                                 <p style={styles.green}>
-                                    <b>Kearney,</b>{' '}
+                                    <b>Vazghen,</b>{' '}
                                 </p>
                                 <p style={styles.green}>
-                                    <b>John Inc.</b>
+                                    <b>Vardanian Inc.</b>
                                 </p>
                             </div>
                         </div>
                         <div style={styles.headerInfo}>
                             <p>Released: 03/14/2000</p>
-                            <p>KEARNEYONLINE_BIOS (C)2000 Kearney John Inc.,</p>
+                            <p>IAMVAZGHEN (C)2000 Vazghen Vardanian Inc.,</p>
                         </div>
                     </div>
                     <div style={styles.body} className="loading-screen-body">
@@ -207,7 +207,7 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
                             <p>
                                 All Content Loaded, launching{' '}
                                 <b style={styles.green}>
-                                    'John Kearney Portfolio Showcase'
+                                    'Vazghen Vardanian'
                                 </b>{' '}
                                 V1.0
                             </p>
@@ -239,7 +239,7 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
                     <p>But do enjoy what I have done so far :)</p>
                     <div style={styles.spacer} />
                     <div style={styles.spacer} /> */}
-                    <p>John Kearney Portfolio Showcase 2023</p>
+                    <p>Vazghen Vardanian - 2026</p>
                     {mobileWarning && (
                         <>
                             <br />
@@ -314,7 +314,7 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
                             will need to use a different browser.
                         </p>
                         <div style={styles.spacer} />
-                        <p>Thank you - John</p>
+                        <p>Thank you - Vazghen</p>
                     </div>
                 </div>
             )}
