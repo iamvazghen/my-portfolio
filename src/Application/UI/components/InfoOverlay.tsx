@@ -129,11 +129,6 @@ const InfoOverlay: React.FC<InfoOverlayProps> = ({ visible }) => {
                     >
                         <p>{timeText}</p>
                     </div>
-                    {volumeVisible && (
-                        <div style={styles.lastRowChild}>
-                            <MuteToggle />
-                        </div>
-                    )}
                     {freeCamVisible && (
                         <div style={styles.lastRowChild}>
                             <FreeCamToggle />
