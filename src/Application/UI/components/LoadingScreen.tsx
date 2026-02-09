@@ -20,21 +20,30 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
     const [webGLError, setWebGLError] = useState(false);
     const [counter, setCounter] = useState(0);
     const [resources] = useState<string[]>([]);
-    const [mobileWarning, setMobileWarning] = useState(window.innerWidth < 768);
+    const [isMobileDevice, setIsMobileDevice] = useState(false);
 
-    const onResize = () => {
-        if (window.innerWidth < 768) {
-            setMobileWarning(true);
-        } else {
-            setMobileWarning(false);
-        }
+    const detectMobileDevice = () => {
+        const ua = navigator.userAgent.toLowerCase();
+        const isMobileUA = /iphone|ipad|ipod|android|mobile|tablet/.test(ua);
+        const isSmallScreen = window.innerWidth < 768;
+        const isTouch =
+            'ontouchstart' in window ||
+            navigator.maxTouchPoints > 0 ||
+            // @ts-ignore
+            navigator.msMaxTouchPoints > 0;
+        return isMobileUA || (isSmallScreen && isTouch);
     };
 
-    window.addEventListener('resize', onResize);
+    const onResize = () => {
+        setIsMobileDevice(detectMobileDevice());
+    };
 
     useEffect(() => {
+        setIsMobileDevice(detectMobileDevice());
+        window.addEventListener('resize', onResize);
+
         const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.has('debug')) {
+        if (urlParams.has('debug') && !detectMobileDevice()) {
             start();
         }
         if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
@@ -44,6 +53,10 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
         } else {
             setShowBiosInfo(true);
         }
+
+        return () => {
+            window.removeEventListener('resize', onResize);
+        };
     }, []);
 
     useEffect(() => {
@@ -240,36 +253,37 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
                     <div style={styles.spacer} />
                     <div style={styles.spacer} /> */}
                     <p>Vazghen Vardanian - 2026</p>
-                    {mobileWarning && (
+                    {isMobileDevice ? (
                         <>
-                            <br />
-                            <b>
-                                <p style={styles.warning}>
-                                    WARNING: This experience is best viewed on
-                                </p>
-                                <p style={styles.warning}>
-                                    a desktop or laptop computer.
-                                </p>
-                            </b>
-                            <br />
+                            <p style={styles.warning}>
+                                <b>ERROR 404</b>
+                            </p>
+                            <div style={styles.spacer} />
+                            <p style={styles.warning}>
+                                Please use a desktop or laptop device to
+                                successfully access this website.
+                            </p>
+                        </>
+                    ) : (
+                        <>
+                            <div style={{ display: 'flex', alignItems: 'flex-end' }}>
+                                <p>Click start to begin{'\xa0'}</p>
+                                <span className="blinking-cursor" />
+                            </div>
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    marginTop: '16px',
+                                }}
+                            >
+                                <div className="bios-start-button" onClick={start}>
+                                    <p>START</p>
+                                </div>
+                            </div>
                         </>
                     )}
-                    <div style={{ display: 'flex', alignItems: 'flex-end' }}>
-                        <p>Click start to begin{'\xa0'}</p>
-                        <span className="blinking-cursor" />
-                    </div>
-                    <div
-                        style={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            marginTop: '16px',
-                        }}
-                    >
-                        <div className="bios-start-button" onClick={start}>
-                            <p>START</p>
-                        </div>
-                    </div>
                 </div>
             </div>
             {firefoxError && (
