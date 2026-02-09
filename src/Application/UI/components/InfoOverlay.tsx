@@ -181,3 +181,4 @@ const styles: StyleSheetCSS = {
 };
 
 export default InfoOverlay;
+
